@@ -1,37 +1,42 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "@/app/screen/home";
+import CardScreen from "@/app/screen/card";
+import { Text, TouchableOpacity } from "react-native";
+import CreateCardScreen from "@/app/screen/create-card";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+export type StackParams = {
+  Home: any;
+  Cards: any;
+  CreateCard: any;
+};
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+const Stack = createNativeStackNavigator<StackParams>();
 
+function App() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{ headerBackTitleVisible: false }}
+    >
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="Cards"
+        component={CardScreen}
+        options={({ route, navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate("CreateCard")}>
+              <Text style={{ fontSize: 23, color: "#000000" }}>+</Text>
+            </TouchableOpacity>
           ),
-        }}
+        })}
       />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
+      <Stack.Screen
+        name="CreateCard"
+        options={{ headerTitle: "" }}
+        component={CreateCardScreen}
       />
-    </Tabs>
+    </Stack.Navigator>
   );
 }
+
+export default App;
