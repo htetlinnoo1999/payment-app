@@ -1,6 +1,7 @@
+import { CardWithToken } from "@/store/card/interface";
+
 export interface CardProps {
-  onPress: () => any;
-  cardInfo: Card;
+  cardInfo: CardWithToken;
 }
 
 export type Card = {

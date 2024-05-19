@@ -12,7 +12,7 @@ export default function CardScreen() {
           <FlatList
             data={cards}
             renderItem={({ item }) => (
-              <Card onPress={() => console.log("first")} cardInfo={item} />
+              <Card cardInfo={item} />
             )}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={styles.listContent}
