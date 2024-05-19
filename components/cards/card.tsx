@@ -9,7 +9,7 @@ const cardImages = {
   jcb: require("@/assets/images/jcb/md.png"),
 };
 
-export default function Card({ onPress, cardInfo }: CardProps) {
+export default function Card({ cardInfo }: CardProps) {
   const cardType = useCardType(cardInfo.cardNumber);
   return (
     <TouchableOpacity

@@ -16,6 +16,7 @@ import CardCvv from "@/components/card-form/card-cvv";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { Card } from "@/interfaces/card";
 import CardStore from "@/store/card";
+import useOmise from "@/hooks/useOmise";
 
 export interface CardFormProps {
   value: string;
@@ -29,11 +30,14 @@ export default function CreateCardScreen() {
     expires: "",
     cvv: "",
   });
+  const paymentProvider = useOmise();
   const { addCard } = CardStore((state) => state);
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
 
-  const handleAddCard = useCallback((cardInfo: Card) => {
-    addCard(cardInfo);
+  const handleAddCard = useCallback(async (cardInfo: Card) => {
+    const response =
+      paymentProvider && (await paymentProvider.createToken(cardInfo));
+    addCard({ ...cardInfo, paymentToken: response.card.id });
     navigation.navigate("Cards");
   }, []);
   return (

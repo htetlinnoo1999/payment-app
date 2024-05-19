@@ -1,10 +1,9 @@
 import { create } from "zustand";
-import { CardState } from "./interface";
-import { Card } from "@/interfaces/card";
+import { CardState, CardWithToken } from "@/store/card/interface";
 
 const CardStore = create<CardState>((set) => ({
   cards: null,
-  addCard: (card: Card) =>
+  addCard: (card: CardWithToken) =>
     set((state) => {
       if (state.cards === null) {
         // If the cards array is null, initialize it with the new card
